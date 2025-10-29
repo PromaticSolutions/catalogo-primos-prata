@@ -1,13 +1,13 @@
-// src/App.tsx - VERSÃO FINAL
+// src/App.tsx - VERSÃO CORRIGIDA E LIMPA
 
 import { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Catalog from './components/Catalog';
 import Login from './components/admin/Login';
 import AdminPanel from './components/admin/AdminPanel';
-import AgeVerificationModal from './components/AgeVerificationModal';
 import { supabase } from './lib/supabase'; // Importe o supabase
 
+// A função ProtectedAdminRoute não precisa de nenhuma alteração.
 function ProtectedAdminRoute({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<any>(null);
   const [isChecking, setIsChecking] = useState(true);
@@ -36,33 +36,11 @@ function ProtectedAdminRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+// A função App foi limpa para remover toda a lógica de verificação de idade.
 function App() {
-  const [showAgeModal, setShowAgeModal] = useState(false);
-
-  useEffect(() => {
-    const isVerified = sessionStorage.getItem('isAgeVerified');
-    if (isVerified !== 'true') {
-      setShowAgeModal(true);
-    }
-  }, []);
-
-  const handleAgeConfirm = () => {
-    sessionStorage.setItem('isAgeVerified', 'true');
-    setShowAgeModal(false);
-  };
-
-  const handleAgeReject = () => {
-    window.location.href = 'about:blank';
-  };
-
   return (
     <BrowserRouter>
-      {showAgeModal && (
-        <AgeVerificationModal
-          onConfirm={handleAgeConfirm}
-          onReject={handleAgeReject}
-        />
-      )}
+      {/* O modal de verificação de idade foi removido daqui. */}
       <Routes>
         <Route path="/" element={<Catalog />} />
         <Route
